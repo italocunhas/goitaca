@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["gru1"],
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "PRISMA_GENERATE_DATAPROXY": "true"
   }
 } 
