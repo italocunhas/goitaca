@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id            String          @id @default(cuid())
+  user          User?           @relation(fields: [userId], references: [id])
+  userId        String?
+  customerName  String
+  customerPhone String
+  address       Address         @relation(fields: [addressId], references: [id])
+  addressId     String
+  items         OrderItem[]
+  payment       Payment?
+  status        OrderStatus     @default(PENDING)
+  trackingInfo  TrackingInfo?
+  total         Float
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  street       String
+  number       String
+  neighborhood String
+  complement   String?
+  reference    String
+  orders       Order[]
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  order       Order    @relation(fields: [orderId], references: [id])
+  orderId     String
+  size        String
+  base        String
+  topping     String
+  complements String[]
+  extras      String[]
+  quantity    Int
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  order         Order         @relation(fields: [orderId], references: [id])
+  orderId       String        @unique
+  amount        Float
+  status        PaymentStatus @default(PENDING)
+  provider      String        // "STRIPE" ou "MERCADOPAGO"
+  transactionId String?       // ID da transação no provedor de pagamento
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model TrackingInfo {
+  id              String            @id @default(cuid())
+  order           Order             @relation(fields: [orderId], references: [id])
+  orderId         String            @unique
+  estimatedTime   DateTime
+  statusUpdates   StatusUpdate[]
+  currentStatus   DeliveryStatus    @default(PREPARING)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model StatusUpdate {
+  id             String         @id @default(cuid())
+  tracking       TrackingInfo   @relation(fields: [trackingInfoId], references: [id])
+  trackingInfoId String
+  status         DeliveryStatus
+  message        String?
+  createdAt      DateTime       @default(now())
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum DeliveryStatus {
+  PREPARING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
