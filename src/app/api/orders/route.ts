@@ -4,45 +4,52 @@ import { prisma } from '@/lib/prisma';
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const { customerData, orderItems, total } = data;
+    const { items, customerData } = data;
 
-    // Criar o pedido no banco de dados
+    // Primeiro criar o endereço
+    const address = await prisma.address.create({
+      data: {
+        street: customerData.rua,
+        number: customerData.numero,
+        neighborhood: customerData.bairro,
+        complement: customerData.complemento,
+        city: customerData.cidade,
+        state: customerData.estado,
+        zipCode: customerData.cep,
+        userId: customerData.userId
+      }
+    });
+
+    // Depois criar o pedido com o endereço
     const order = await prisma.order.create({
       data: {
         customerName: customerData.nome,
         customerPhone: customerData.telefone,
-        address: {
-          street: customerData.rua,
-          number: customerData.numero,
-          neighborhood: customerData.bairro,
-          complement: customerData.complemento,
-          reference: customerData.pontoReferencia,
-        },
+        addressId: address.id,
         items: {
-          create: orderItems.map((item: any) => ({
-            size: item.size.size,
-            base: item.base.name,
-            topping: item.topping.name,
-            complements: item.complements.map((c: any) => c.name),
-            extras: item.extras.map((e: any) => e.name),
+          create: items.map((item: any) => ({
+            size: item.size,
+            base: item.base,
+            topping: item.topping,
+            complements: item.complements,
+            extras: item.extras,
             quantity: item.quantity,
-            price: item.size.price + item.extras.reduce((sum: number, extra: any) => sum + extra.price, 0),
-          })),
+            price: item.price,
+            notes: item.notes
+          }))
         },
-        total,
-        status: 'PENDING',
-      },
+        total: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0),
+        subtotal: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0),
+        tax: 0,
+        deliveryFee: 0
+      }
     });
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Pedido realizado com sucesso!',
-      orderId: order.id 
-    });
+    return NextResponse.json(order);
   } catch (error) {
-    console.error('Erro ao processar pedido:', error);
+    console.error("Error creating order:", error);
     return NextResponse.json(
-      { success: false, message: 'Erro ao processar pedido' },
+      { error: "Error creating order" },
       { status: 500 }
     );
   }

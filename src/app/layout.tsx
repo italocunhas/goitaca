@@ -20,6 +20,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Açaí Goitacá',
   description: 'Monte seu açaí personalizado',
+  metadataBase: new URL('https://acaigoitaca.vercel.app'),
   icons: {
     icon: '/favicon.ico',
   },
@@ -28,22 +29,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head>
-      <body className={`${montserrat.className} m-0 p-0`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${montserrat.variable} ${playfair.variable}`}>
+      <body>
         <Providers>
           <CartProvider>
-            <div className="flex flex-col min-h-screen max-w-[2000px] mx-auto">
-              <Header />
-              <main className="flex-1 pt-24">
-                {children}
-              </main>
-            </div>
+            <Header />
+            {children}
           </CartProvider>
         </Providers>
       </body>

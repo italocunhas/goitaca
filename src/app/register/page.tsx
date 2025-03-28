@@ -1,6 +1,11 @@
+'use client';
+
 import { RegisterForm } from '../../components/RegisterForm';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -14,8 +19,8 @@ export default function RegisterPage() {
         </div>
 
         <RegisterForm 
-          onCloseModalAction={() => window.history.back()}
-          onLoginClickAction={() => window.location.href = '/login'}
+          onCloseModalAction={() => router.back()}
+          onLoginClickAction={() => router.push('/login')}
         />
       </div>
     </div>
