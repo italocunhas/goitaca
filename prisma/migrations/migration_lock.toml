@@ -1,0 +1,4 @@
+# This file helps Prisma track the state of your database migrations.
+# Learn more in the docs: https://pris.ly/d/migration-lock
+
+provider = "postgresql" 
