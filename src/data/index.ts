@@ -37,7 +37,7 @@ export const TOPPINGS: Topping[] = [
 ];
 
 export const EXTRAS: Extra[] = [
-  { name: 'Leite em pó', price: 3, image: 'https://images.tcdn.com.br/img/img_prod/1098943/leite_em_po_integral_400g_1und_34457_2_4b0f1f1343a43ebdcddccaf27063c197.jpg' },
+  { name: 'Leite em pó', price: 3, image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ082t5dB0wZnPuK0L23nM4r7n8qtB6Fbh46A1cUqgt_EOoFEo8ZtNYOmeKYF8Cu_JZVJoK-uwlYKtoswV7tdSSigRGL2X_OFh-hyUFYC8' },
   { name: 'Granola', price: 3, image: 'https://royalcerealista.com.br/wp-content/uploads/2023/08/granola-com-frutas.webp' },
   { name: 'Amendoim torrado', price: 3, image: 'https://images.tcdn.com.br/img/img_prod/757549/amendoim_torrado_s_pele_com_sal_granel_100g_282_1_d03285de553f521cea675f10a2b36da7.jpg' },
   { name: 'Paçoca', price: 3, image: 'https://conteudo.imguol.com.br/c/entretenimento/42/2023/06/28/pacoca-1687974182631_v2_4x3.jpg' },
