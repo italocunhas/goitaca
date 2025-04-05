@@ -12,7 +12,13 @@ export const metadata: Metadata = {
   description: 'O melhor açaí de Bangu!',
   metadataBase: new URL('https://acaigoitaca.vercel.app'),
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+    ],
   },
 };
 
