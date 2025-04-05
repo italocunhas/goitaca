@@ -2,32 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Modal } from './Modal';
-import { RegisterForm } from './RegisterForm';
-import { LoginForm } from './LoginForm';
 import { useCart } from '../contexts/CartContext';
-import { MessageCircle, LogIn, LogOut, User } from 'lucide-react';
-import { useSession, signOut } from 'next-auth/react';
+import { MessageCircle } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 export function Header() {
   const { items } = useCart();
   const { data: session } = useSession();
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const openLoginModal = () => {
-    setIsRegisterModalOpen(false);
-    setIsLoginModalOpen(true);
-  };
-
-  const openRegisterModal = () => {
-    setIsLoginModalOpen(false);
-    setIsRegisterModalOpen(true);
-  };
-
-  const handleLogout = async () => {
-    await signOut({ redirect: true });
-  };
 
   const getFirstName = (fullName: string) => {
     return fullName.split(' ')[0];
@@ -74,62 +55,9 @@ export function Header() {
             >
               <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
             </a>
-            {session ? (
-              <div className="flex items-center gap-2">
-                <div className="bg-white/10 text-white border-2 border-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 sm:gap-2">
-                  <User className="w-4 h-4 sm:w-5 sm:h-5" />
-                  {getFirstName(session.user?.name || '')}
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="bg-white text-[#8f527b] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-white/90 transition-colors flex items-center gap-1.5 sm:gap-2"
-                >
-                  <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
-                  Sair
-                </button>
-              </div>
-            ) : (
-              <>
-                <button
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="bg-transparent text-white border-2 border-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-white/10 transition-colors flex items-center gap-1.5 sm:gap-2"
-                >
-                  <LogIn className="w-4 h-4 sm:w-5 sm:h-5" />
-                  Entrar
-                </button>
-                <button
-                  onClick={() => setIsRegisterModalOpen(true)}
-                  className="bg-white text-[#8f527b] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-white/90 transition-colors"
-                >
-                  Registrar
-                </button>
-              </>
-            )}
           </div>
         </div>
       </div>
-
-      <Modal
-        isOpen={isLoginModalOpen}
-        onCloseAction={() => setIsLoginModalOpen(false)}
-        title="Entrar"
-      >
-        <LoginForm 
-          onCloseModalAction={() => setIsLoginModalOpen(false)}
-          onRegisterClickAction={openRegisterModal}
-        />
-      </Modal>
-
-      <Modal
-        isOpen={isRegisterModalOpen}
-        onCloseAction={() => setIsRegisterModalOpen(false)}
-        title="Criar Conta"
-      >
-        <RegisterForm 
-          onCloseModalAction={() => setIsRegisterModalOpen(false)}
-          onLoginClickAction={openLoginModal}
-        />
-      </Modal>
     </header>
   );
 }
