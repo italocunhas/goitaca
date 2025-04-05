@@ -29,7 +29,6 @@ export const TOPPINGS: Topping[] = [
   { name: 'Calda de chocolate', image: 'https://m.media-amazon.com/images/I/51okI77L6mL.jpg' },
   { name: 'Calda de morango', image: 'https://docemalu.vtexassets.com/arquivos/ids/5348516/18123-1.jpg?v=638421941024630000'},
   { name: 'Calda de caramelo', image: 'https://images.tcdn.com.br/img/img_prod/746520/cobertura_de_caramelo_para_sorvete_1_3kg_marvi_5790253_1_20200430133248.jpg' },
-  { name: 'Calda de leite condensado', image: 'https://docemalu.vtexassets.com/arquivos/ids/5348461/18008-1.jpg?v=638421939517630000' },
   { name: 'Calda de maracujá', image: 'https://docemalu.vtexassets.com/arquivos/ids/5344480/100721-1.jpg?v=638421837728870000' },
   { name: 'Calda de amendoim', image: 'https://down-br.img.susercontent.com/file/br-11134207-7r98o-lovufe89ykdu1d' },
   { name: 'Calda de doce de leite', image: 'https://images.tcdn.com.br/img/img_prod/919170/cobertura_taca_doce_de_leite_1_3kg_294_1_efa2e8f5f305cd49fc997ca87b75fdfb.jpg' },
